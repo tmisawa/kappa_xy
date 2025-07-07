@@ -1,0 +1,1 @@
+cp /data02/bowmoref02/data/misawa/ObcxKitaev/gp31/Kitaev/MakingReferenceDataN16_Re/fullED_h004/* ./

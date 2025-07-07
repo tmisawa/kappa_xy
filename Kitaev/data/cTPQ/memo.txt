@@ -1,0 +1,9 @@
+N=16@bowmore
+full data may be available at
+ /data02/bowmoref02/data/misawa/ObcxKitaev/gp31/Kitaev/MakingReferenceDataN16_Re/SumN16TPQ_2/
+
+
+N=24@bowmore
+
+data02/bowmoref02/data/misawa/ObcxKitaev/gp31/Kitaev/MakingReferenceDataN24/h004G0GP0/
+/data02/bowmoref02/data/misawa/ObcxKitaev/gp31/Kitaev/MakingReferenceDataN24/h008G0GP0r/
