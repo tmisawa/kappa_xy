@@ -1,0 +1,1 @@
+cp -r /data02/bowmoref02/data/misawa/ObcxKitaev/N16_fullED/N16FullEDEne .
