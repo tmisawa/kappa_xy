@@ -1,0 +1,13 @@
+[param]
+J       = 0.0
+Jp      = 1.0
+D       = 2.5
+Dp_x    = 0
+Dp_y    = 0
+Dp_z    = 0
+mag_h   = 0.0
+Lx      = 2
+Ly      = 2
+orb_num = 4
+exct    = 4
+boundary = "peri"
