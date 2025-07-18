@@ -1,0 +1,12 @@
+  ModPara       modpara_cg.def
+  CalcMod       calcmod_cg.def
+  Trans         mag.def
+  LocSpin       locspn.def
+  Ising         Ising.def
+  Exchange      Exchange.def
+  Pairlift      PairLift.def
+  InterAll      InterAll.def
+  OneBodyG      green1.def
+  TwoBodyG      green2.def
+  ThreeBodyG    green3.def
+  SixBodyG      green6.def
