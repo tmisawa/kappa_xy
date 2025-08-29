@@ -327,9 +327,9 @@ class DefWriter:
         All_N: int,
         *,
         Ncond: int | None = None,
-        Lanczos_max: int = 6000,
-        initial_iv: int = 122,
-        exct: int = 50,
+        Lanczos_max: int = 2000,
+        initial_iv: int = -1,
+        exct: int = 1,
         LanczosEps: int = 14,
         LanczosTarget: int = 2,
         LargeValue: int = 50,
@@ -423,7 +423,7 @@ class DefWriter:
             if v == "ed":
                 self.write_modpara_ed(modpara_file, All_N)
             elif v == "cg":
-                self.write_modpara_cg(modpara_file, All_N, exct=50)
+                self.write_modpara_cg(modpara_file, All_N, exct=2)
             else:  # "tpq"
                 self.write_modpara_tpq(modpara_file, All_N)
 

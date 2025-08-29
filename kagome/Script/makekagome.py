@@ -45,7 +45,7 @@ def main():
     writer.write_spin_exchange_def(f"{output_dir}/spin_exchange.def", heisenberg_int, J, N=num_ex, scale=0.5)
     writer.write_ising_def(f"{output_dir}/ising.def",heisenberg_int, J, N=num_ising, scale=1.0)
     writer.write_mag_def(f"{output_dir}/mag.def",All_N, hz, scale=0.5)
-    writer.write_locspin_def(f"{output_dir}/locspn.def", All_N)
+    writer.write_locspn_def(f"{output_dir}/locspn.def", All_N)
     if method == "ed":
         writer.write_bundle(output_dir, All_N,"ed",
                         ising="ising.def",
