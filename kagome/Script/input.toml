@@ -1,0 +1,9 @@
+[ham]
+J        =   1.0
+hz       =   0.0
+Lx       =   2
+Ly       =   2
+boundary = "open"
+[general]
+output_dir = "def"
+method     = "tpq"
