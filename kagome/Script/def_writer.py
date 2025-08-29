@@ -94,10 +94,6 @@ class DefWriter:
         """Alias preset for mag.def."""
         self.write_site_field_def(filename, n_sites, hz, scale=scale)
 
-    def write_kagome_namelist_def(self, filename: str, n_sites: int, hz: float, scale: float = 0.5):
-        """Alias preset for kagome_namelist.def (currently identical to mag.def)."""
-        self.write_site_field_def(filename, n_sites, hz, scale=scale)
-
     # -------------------------------------------------------------------------
     # calcmod
     # -------------------------------------------------------------------------
@@ -426,6 +422,7 @@ class DefWriter:
         if v not in {"ed", "cg", "tpq"}:
             raise ValueError(f"variant must be 'ed', 'cg', or 'tpq' (got {variant!r})")
 
+        self.write_locspn_def( f"{outdir}/locspn.def", All_N)
         # --- determine default file names (can be overridden) ---
         modpara_file  = modpara_filename  or f"{outdir}/modpara_{v}.def"
         calcmod_file  = calcmod_filename  or f"{outdir}/calcmod_{v}.def"
