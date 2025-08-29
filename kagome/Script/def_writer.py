@@ -190,10 +190,10 @@ class DefWriter:
         Ncond: int | None = None,
         Lanczos_max: int = 2000,
         initial_iv: int = -1,
-        exct: int = 50,
+        exct: int = 1,
         LanczosEps: int = 14,
         LanczosTarget: int = 2,
-        LargeValue: int = 30,
+        LargeValue: int = 50,
         NumAve: int = 5,
         ExpecInterval: int = 20,
         ExpandCoef: int | None = None,
@@ -355,34 +355,6 @@ class DefWriter:
             ExpandCoef=ExpandCoef,
         )
 
-
-    # =========================
-    # Presets: NAMELIST
-    # =========================
-    def write_namelist_ed(self, filename: str) -> None:
-        """Preset: namelist for ED."""
-        self.write_namelist_def(
-            filename=filename,
-            modpara="modpara_ed.def",
-            calcmod="calcmod_ed.def",
-        )
-
-    def write_namelist_cg(self, filename: str) -> None:
-        """Preset: namelist for CG."""
-        self.write_namelist_def(
-            filename=filename,
-            modpara="modpara_cg.def",
-            calcmod="calcmod_cg.def",
-        )
-
-    def write_namelist_tpq(self, filename: str) -> None:
-        """Preset: namelist for TPQ."""
-        self.write_namelist_def(
-            filename=filename,
-            modpara="modpara_tpq.def",
-            calcmod="calcmod_tpq.def"
-        )
-
     # =========================
     # Optional: one-shot bundles
     # =========================
@@ -422,7 +394,6 @@ class DefWriter:
         if v not in {"ed", "cg", "tpq"}:
             raise ValueError(f"variant must be 'ed', 'cg', or 'tpq' (got {variant!r})")
 
-        self.write_locspn_def( f"{outdir}/locspn.def", All_N)
         # --- determine default file names (can be overridden) ---
         modpara_file  = modpara_filename  or f"{outdir}/modpara_{v}.def"
         calcmod_file  = calcmod_filename  or f"{outdir}/calcmod_{v}.def"

@@ -43,8 +43,9 @@ def main():
     writer = DefWriter(float_prec=8, sort_pairs=True)
     # exisiting parameters: heisenberg_int, num_ex, num_ising, J, hz, All_N
     writer.write_spin_exchange_def(f"{output_dir}/spin_exchange.def", heisenberg_int, J, N=num_ex, scale=0.5)
-    writer.write_ising_def(f"{output_dir}/ising.def",heisenberg_int, J, N=num_ising, scale=0.5)
+    writer.write_ising_def(f"{output_dir}/ising.def",heisenberg_int, J, N=num_ising, scale=1.0)
     writer.write_mag_def(f"{output_dir}/mag.def",All_N, hz, scale=0.5)
+    writer.write_locspin_def(f"{output_dir}/locspn.def", All_N)
     if method == "ed":
         writer.write_bundle(output_dir, All_N,"ed",
                         ising="ising.def",
