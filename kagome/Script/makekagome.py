@@ -187,7 +187,7 @@ def StandardGreenDef(output_dir, All_N):
 
     with open("%s/green2.def"%(output_dir) , 'w') as f:
         print("===",file=f)
-        print("N %d"%(6*All_N),file=f)
+        print("N %d"%(6*All_N*All_N),file=f)
         print("===",file=f)
         print("===",file=f)
         print("===",file=f)
