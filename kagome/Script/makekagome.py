@@ -46,9 +46,21 @@ def main():
     writer.write_ising_def(f"{output_dir}/ising.def",heisenberg_int, J, N=num_ising, scale=0.5)
     writer.write_mag_def(f"{output_dir}/mag.def",All_N, hz, scale=0.5)
     if method == "ed":
-        writer.write_bundle(output_dir, All_N,"ed")
+        writer.write_bundle(output_dir, All_N,"ed",
+                        ising="ising.def",
+                        exchange="spin_exchange.def",
+                        trans="mag.def",
+                        onebodyg="green1.def",
+                        twobodyg="green2.def"
+                        )
     elif method == "cg":
-        writer.write_bundle(output_dir, All_N,"cg")
+        writer.write_bundle(output_dir, All_N,"cg",
+                        ising="ising.def",
+                        exchange="spin_exchange.def",
+                        trans="mag.def",
+                        onebodyg="green1.def",
+                        twobodyg="green2.def"
+                        )
     elif method == "tpq":   
         writer.write_bundle(output_dir, All_N,"tpq",
                         ising="ising.def",
