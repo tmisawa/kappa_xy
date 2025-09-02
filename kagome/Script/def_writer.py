@@ -1,5 +1,5 @@
 # def_writer.py
-from typing import Iterable, Tuple, Callable, Union, List, Dict, Any,Optional
+from typing import Iterable, Tuple, Callable, Union, List, Dict, Any,Optional, Sequence,Literal
 
 PairIterable = Iterable[Tuple[int, int]]
 Weight = Union[float, Callable[[int, int], float]]
@@ -24,6 +24,13 @@ class DefWriter:
         # Keep exact spacing and a trailing space for full compatibility
         return f"  {i:8d} {j:8d} {val:.{self.float_prec}f} "
 
+    def _fmt_many(self, fields: Sequence[int], *vals: float) -> str:
+        # Generic fixed-width row with any number of trailing floats
+        ints   = " ".join(f"{x:8d}" for x in fields)
+        floats = " ".join(f"{float(v):.{self.float_prec}f}" for v in vals)
+        # trailing space kept for compatibility
+        return f"  {ints} {floats} " if floats else f"  {ints} "
+
     # ---------- generic writers ----------
     def write_pairs_def(
         self,
@@ -31,6 +38,7 @@ class DefWriter:
         pairs: PairIterable,
         N: int | None = None,
         weight: Weight = 0.0,
+        variant: Literal["pair", "dm"] = "pair",
     ) -> None:
         """
         Write a generic pair-wise .def file.
@@ -40,12 +48,22 @@ class DefWriter:
         - weight:
             * float  -> constant value for all pairs
             * callable (i,j)->float -> per-pair value
+        - variant:
+            * "pair"      -> conventional 2-index line:  i j val
+            * "dm"        -> s_{i+}s_{j-} - s_{i-}s_{j+}:
+                              (i,0,i,1,j,1,j,0,0.0,val)
+                              (i,1,i,0,j,0,j,1,0.0,-val)
         """
         pairs_list = list(pairs)
         if self.sort_pairs:
             pairs_list = sorted(pairs_list)
+        
+        # Decide header N (number of lines)
         if N is None:
-            N = len(pairs_list)
+            if variant == "pair":
+                N = len(pairs_list)
+            else:  # "dm" prints 2 lines per (i,j)
+                N = 2 * len(pairs_list)
 
         # Precompute numeric values to avoid surprises in printing
         if callable(weight):
@@ -56,8 +74,14 @@ class DefWriter:
 
         with open(filename, "w") as f:
             self._write_header(f, N)
-            for (i, j), v in zip(pairs_list, vals):
-                print(self._fmt_pair(i, j, v), file=f)
+            if variant == "pair":
+                for (i, j), v in zip(pairs_list, vals):
+                    print(self._fmt_pair(i, j, v), file=f)
+            elif variant == "dm":
+                for (i, j), v in zip(pairs_list, vals):
+                    print(self._fmt_many([i, 0, i, 1, j, 1, j, 0], 0.0, +v), file=f)
+                    print(self._fmt_many([j, 0, j, 1, i, 1, i, 0], 0.0, -v), file=f)
+                    #print(self._fmt_many([i, 1, i, 0, j, 0, j, 1], 0.0, -v), file=f)
 
     def write_site_field_def(
         self,
@@ -86,9 +110,13 @@ class DefWriter:
         """Alias preset for spin_exchange.def (value = scale*J for all pairs)."""
         self.write_pairs_def(filename, pairs, N=N, weight=scale * float(J))
 
-    def write_ising_def(self, filename: str, pairs: PairIterable, J: float, N: int | None = None, scale: float = 0.5):
+    def write_ising_def(self, filename: str, pairs: PairIterable, J: float, N: int | None = None, scale: float = 1):
         """Alias preset for ising.def (same shape as spin_exchange.def)."""
         self.write_pairs_def(filename, pairs, N=N, weight=scale * float(J))
+
+    def write_dm_def(self, filename: str, pairs: PairIterable, J: float, N: int | None = None, scale: float = 0.25):
+        """Alias preset for ising.def (same shape as spin_exchange.def)."""
+        self.write_pairs_def(filename, pairs, N=N, weight=scale * float(J),variant="dm")
 
     def write_mag_def(self, filename: str, n_sites: int, hz: float, scale: float = 0.5):
         """Alias preset for mag.def."""

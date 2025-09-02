@@ -1,6 +1,7 @@
 [ham]
 J        =   1.0
 hz       =   0.0
+Dz       =   0.1
 Lx       =   2
 Ly       =   2
 boundary = "open"

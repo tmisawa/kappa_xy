@@ -20,7 +20,7 @@ from makekagome import MakeKagomePair, heisenberg_pairs
 ])
 def test_basic_shape_and_dtype(Lx, Ly, boundary):
     # Should return (All_N, IntType) with proper shape and dtype=object
-    All_N, IntType = MakeKagomePair(Lx, Ly, boundary)
+    All_N, IntType, DMType = MakeKagomePair(Lx, Ly, boundary)
     assert isinstance(All_N, int)
     assert isinstance(IntType, np.ndarray)
     assert IntType.shape == (All_N, All_N)
@@ -35,7 +35,7 @@ def test_basic_shape_and_dtype(Lx, Ly, boundary):
 ])
 def test_value_domain_and_no_self_loops(Lx, Ly, boundary):
     # Only 'heisenberg' or falsy (0/None/empty). No self loops (i,i) should be labeled.
-    All_N, IntType = MakeKagomePair(Lx, Ly, boundary)
+    All_N, IntType, DMType = MakeKagomePair(Lx, Ly, boundary)
     for i in range(All_N):
         assert not IntType[i, i], "No self-loop should be labeled"
         for j in range(All_N):
@@ -53,7 +53,7 @@ def test_periodic_edge_count(Lx, Ly):
     # For periodic boundary:
     # The code writes exactly 6 directed edges per unit cell.
     # Expected number of 'heisenberg' entries = 6 * Lx * Ly
-    All_N, IntType = MakeKagomePair(Lx, Ly, "periodic")
+    All_N, IntType, DMType = MakeKagomePair(Lx, Ly, "periodic")
     pairs = heisenberg_pairs(IntType)
     assert len(pairs) == 6 * Lx * Ly # Hand-derived formula for periodic edges
 
@@ -67,7 +67,7 @@ def test_open_edges_reasonable(Lx, Ly):
     # For open boundary:
     # - there should be some edges
     # - edges must be fewer than or equal to the periodic case
-    All_N_open, IntType_open = MakeKagomePair(Lx, Ly, "open")
+    All_N_open, IntType_open, DMType_open = MakeKagomePair(Lx, Ly, "open")
     pairs_open               = heisenberg_pairs(IntType_open)
 
     assert All_N_open      == 3*(Lx-1)*Ly+2*Ly
@@ -91,7 +91,7 @@ def test_periodic_L1x1_snapshot():
     # Lx=Ly=1, periodic:
     # From the code, we get the following directed edges inside the single cell:
     # (0->1), (0->2), (1->2), (1->0), (2->0), (2->1)
-    All_N, IntType = MakeKagomePair(1, 1, "periodic")
+    All_N, IntType, DMType = MakeKagomePair(1, 1, "periodic")
     assert All_N == 3
     print("All_N:", All_N)
     dump_nonzero(IntType)
@@ -105,7 +105,7 @@ def test_open_L2x2_snapshot():
     #
     Lx = 2
     Ly = 2
-    All_N, IntType = MakeKagomePair(Lx, Ly, "open")
+    All_N, IntType, DMType = MakeKagomePair(Lx, Ly, "open")
     pairs_open     = heisenberg_pairs(IntType)
     #dump_nonzero(IntType)
     assert All_N == 10
